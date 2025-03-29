@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { DashboardLayout } from "./components/dashboard-layout";
+import { TalentPoolHeader } from "./components/talent-pool-header";
+import { DataTable } from "./components/data-table";
+import { columns } from "./components/columns";
+import { applicants } from "./lib/data";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div className="flex justify-center items-center h-screen">
-        <Button>Click me</Button>
-      </div>
-    </>
+    <DashboardLayout>
+      <TalentPoolHeader />
+      <DataTable columns={columns} data={applicants} />
+    </DashboardLayout>
   );
 }
 
