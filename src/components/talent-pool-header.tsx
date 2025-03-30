@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import { Header } from "./header";
 import {
   Sheet,
   SheetContent,
@@ -13,7 +13,7 @@ import {
   CommandList,
   CommandEmpty,
 } from "@/components/ui/command";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function TalentPoolHeader() {
   const [open, setOpen] = useState(false);
@@ -32,21 +32,15 @@ export function TalentPoolHeader() {
   }, []);
 
   return (
-    <div className="mb-8">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Talent Pool</h1>
-          <p className="text-gray-500 text-sm">Keep track of the applicants</p>
-        </div>
-
-        <Button
-          onClick={() => setOpen(true)}
-          className="bg-blue-900 hover:bg-blue-800"
-        >
-          <PlusIcon className="h-4 w-4 mr-2" />
-          Add Talent
-        </Button>
-      </div>
+    <div className="mb-6">
+      <Header
+        title="Talent Pool"
+        description="Keep track of the applicants"
+        action={{
+          label: "Add Talent",
+          onClick: () => setOpen(true),
+        }}
+      />
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent>
