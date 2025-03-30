@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { useLogin } from "@/hooks/use-login";
 
-// Şema tanımı
 const formSchema = z.object({
   email: z
     .string()
@@ -64,7 +63,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 mx-auto rounded-lg shadow-sm card">
+    <div className="w-full max-w-md p-8 mx-auto rounded-lg shadow-sm card bg-white dark:bg-zinc-900">
       <div className="mb-6 text-center">
         <h1 className="text-2xl font-semibold mb-1 dark:text-white">Sign In</h1>
         <p className="text-gray-500 text-sm dark:text-gray-400">
