@@ -8,6 +8,8 @@ import {
   Settings,
   LifeBuoy,
   MoreHorizontal,
+  LogOut,
+  ChevronDown,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -21,9 +23,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { ThemeSwitcher } from "./theme-switcher";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/auth-context";
 
 export function MobileSidebar() {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const location = useLocation();
+  const { logout, user } = useAuth();
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -35,16 +41,22 @@ export function MobileSidebar() {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="p-0 w-[280px] sm:max-w-xs  dark:border-zinc-800"
+        className="p-0 w-[290px] sm:max-w-xs dark:border-zinc-800"
       >
         <div className="h-full flex flex-col">
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b dark:border-zinc-800">
-            <div className="flex items-center gap-2">
+          <div className="p-4 border-b dark:border-zinc-800">
+            <div className="flex items-center gap-2 border rounded-md p-2 w-full h-[52px]">
               <div className="h-8 w-8 bg-purple-600 rounded-md flex items-center justify-center">
                 <span className="text-white text-lg font-bold">H</span>
               </div>
-              <span className="font-semibold dark:text-white">Hrpanda</span>
+              <Button
+                variant="ghost"
+                className="px-0 font-semibold flex items-center dark:text-white flex-1 justify-between"
+              >
+                <span>Hrpanda</span>
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </Button>
             </div>
           </div>
 
@@ -55,39 +67,46 @@ export function MobileSidebar() {
                 Dashboard
               </div>
               <NavItem
-                icon={<Home className="h-5 w-5" />}
+                icon={<Home className="h-6 w-6 text-[#344054]" />}
                 label="Overview"
-                active={false}
+                href="/overview"
+                active={location.pathname === "/overview"}
               />
               <NavItem
-                icon={<Briefcase className="h-5 w-5" />}
+                icon={<Briefcase className="h-6 w-6 text-[#344054]" />}
                 label="Jobs"
-                active={false}
+                href="/jobs"
+                active={location.pathname === "/jobs"}
               />
               <NavItem
-                icon={<Users className="h-5 w-5" />}
+                icon={<Users className="h-6 w-6 text-[#344054]" />}
                 label="Talent Pool"
-                active={true}
+                href="/talent-pool"
+                active={location.pathname.includes("/talent-pool")}
               />
               <NavItem
-                icon={<Inbox className="h-5 w-5" />}
+                icon={<Inbox className="h-6 w-6 text-[#344054]" />}
                 label="Inbox"
-                active={false}
+                href="/inbox"
+                active={location.pathname === "/inbox"}
               />
 
               <div className="mt-4 px-3 py-1 text-xs uppercase text-gray-500 dark:text-gray-400 font-medium">
                 Support & Settings
               </div>
               <NavItem
-                icon={<LifeBuoy className="h-5 w-5" />}
+                icon={<LifeBuoy className="h-6 w-6 text-[#344054]" />}
                 label="Support"
-                active={false}
+                href="/support"
+                active={location.pathname === "/support"}
               />
               <NavItem
-                icon={<Settings className="h-5 w-5" />}
+                icon={<Settings className="h-6 w-6 text-[#344054]" />}
                 label="Settings"
-                active={false}
+                href="/settings"
+                active={location.pathname === "/settings"}
               />
+              <ThemeSwitcher showLabel={true} className="mt-1" />
             </nav>
           </div>
 
@@ -98,16 +117,16 @@ export function MobileSidebar() {
                 <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
                   <img
                     src="https://randomuser.me/api/portraits/women/44.jpg"
-                    alt="Olivia Rhye"
+                    alt="Kullanıcı"
                     className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm font-medium dark:text-white">
-                    Olivia Rhye
+                    {user?.firstName || "Kullanıcı"}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    oliviarhye@hrpanda.co
+                    {user?.email || "kullanici@hrpanda.co"}
                   </p>
                 </div>
               </div>
@@ -122,10 +141,13 @@ export function MobileSidebar() {
                   <DropdownMenuItem>My Profile</DropdownMenuItem>
                   <DropdownMenuItem>Preferences</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <ThemeSwitcher />
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 dark:text-red-400">
-                    Logout
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="text-red-500 focus:bg-red-50 dark:focus:bg-red-950 focus:text-red-600 dark:focus:text-red-400"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -140,21 +162,23 @@ export function MobileSidebar() {
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
+  href: string;
   active: boolean;
 }
 
-function NavItem({ icon, label, active }: NavItemProps) {
+function NavItem({ icon, label, href, active }: NavItemProps) {
   return (
-    <div
+    <Link
+      to={href}
       className={cn(
         "flex items-center px-3 py-2 rounded-md cursor-pointer",
         active
-          ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+          ? "bg-gray-100 dark:bg-zinc-800 text-[#344054] dark:text-white"
+          : "text-[#344054] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-[#344054] dark:hover:text-white"
       )}
     >
-      <div className="w-5 h-5 mr-3">{icon}</div>
-      <span className="text-sm">{label}</span>
-    </div>
+      <div className="w-6 h-6 mr-3">{icon}</div>
+      <span className="text-base">{label}</span>
+    </Link>
   );
 }
