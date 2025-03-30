@@ -1,8 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Applicant } from "@/lib/types";
-import { Star, MoreHorizontal } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Star, MoreHorizontal, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const columns: ColumnDef<Applicant>[] = [
   {
@@ -27,7 +31,7 @@ export const columns: ColumnDef<Applicant>[] = [
           table.toggleAllPageRowsSelected(!!value)
         }
         aria-label="Select all"
-        className="ml-4"
+        className=""
       />
     ),
     cell: ({ row }) => (
@@ -37,7 +41,7 @@ export const columns: ColumnDef<Applicant>[] = [
           row.toggleSelected(!!value)
         }
         aria-label="Select row"
-        className="ml-4"
+        className=""
       />
     ),
     enableSorting: false,
@@ -46,13 +50,16 @@ export const columns: ColumnDef<Applicant>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    enableSorting: false,
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3 pl-2">
-          <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
-            {row.original.name.charAt(0)}
+          <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+            <span className="text-sm font-medium text-gray-600">
+              {row.original.name.charAt(0)}
+            </span>
           </div>
-          <span>{row.original.name}</span>
+          <span className="text-sm">{row.original.name}</span>
         </div>
       );
     },
@@ -60,32 +67,22 @@ export const columns: ColumnDef<Applicant>[] = [
   {
     accessorKey: "email",
     header: "Email",
+    enableSorting: false,
   },
   {
     accessorKey: "stage",
     header: "Stage",
+    enableSorting: true,
     cell: ({ row }) => {
       const stage = row.original.stage;
-      const colorMap: Record<string, string> = {
-        Applied: "text-blue-600",
-        Interview: "text-purple-600",
-        Evaluation: "text-orange-600",
-        Offer: "text-green-600",
-        Contacted: "text-teal-600",
-      };
 
       return (
-        <div className="flex items-center gap-2">
-          <div
-            className={cn("h-2 w-2 rounded-full", {
-              "bg-blue-600": stage === "Applied",
-              "bg-purple-600": stage === "Interview",
-              "bg-orange-600": stage === "Evaluation",
-              "bg-green-600": stage === "Offer",
-              "bg-teal-600": stage === "Contacted",
-            })}
-          ></div>
-          <span className={colorMap[stage]}>{stage}</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-[#36BFFA]"></div>
+            <span className="text-gray-900 dark:text-gray-100">{stage}</span>
+          </div>
+          <ChevronDown className="h-4 w-4 text-gray-400" />
         </div>
       );
     },
@@ -93,6 +90,7 @@ export const columns: ColumnDef<Applicant>[] = [
   {
     accessorKey: "aiFitScore",
     header: "AI Fit Score",
+    enableSorting: false,
     cell: ({ row }) => {
       const score = row.original.aiFitScore || 0;
       let scoreColor = "text-gray-500";
@@ -120,6 +118,7 @@ export const columns: ColumnDef<Applicant>[] = [
   {
     accessorKey: "rating",
     header: "Rating",
+    enableSorting: true,
     cell: ({ row }) => {
       const rating = row.original.rating;
       return (
@@ -148,40 +147,64 @@ export const columns: ColumnDef<Applicant>[] = [
   {
     accessorKey: "appliedJob",
     header: "Applied Job",
+    enableSorting: false,
     cell: ({ row }) => {
       const job = row.original.appliedJob;
 
-      const badgeStyles = {
-        "Software Engineering":
-          "bg-purple-100 text-purple-800 hover:bg-purple-800 hover:text-white",
-        "Sr. Frontend Dev.":
-          "bg-indigo-100 text-indigo-800 hover:bg-indigo-800 hover:text-white",
-        Operations:
-          "bg-blue-100 text-blue-800 hover:bg-blue-800 hover:text-white",
-        Design: "bg-pink-100 text-pink-800 hover:bg-pink-800 hover:text-white",
-        Finance:
-          "bg-violet-100 text-violet-800 hover:bg-violet-800 hover:text-white",
+      const badgeStyles: Record<string, string> = {
+        "Software Engineering": "bg-purple-100 text-purple-800",
+        "Sr. Frontend Dev.": "bg-indigo-100 text-indigo-800",
+        Operations: "bg-blue-100 text-blue-800",
+        Design: "bg-pink-100 text-pink-800",
+        Finance: "bg-violet-100 text-violet-800",
       };
 
       return (
-        <Badge
-          className={cn(
-            "rounded-full font-normal py-1 px-3 transition-colors duration-200",
-            badgeStyles[job as keyof typeof badgeStyles]
-          )}
-        >
-          {job}
-        </Badge>
+        <div className="flex items-center">
+          <span
+            className={cn(
+              "px-3 py-1 rounded-full text-xs font-medium",
+              badgeStyles[job] || "bg-gray-100 text-gray-800"
+            )}
+          >
+            {job}
+          </span>
+        </div>
       );
     },
   },
   {
     accessorKey: "resume",
     header: "Resume",
+    enableSorting: false,
     cell: ({ row }) => {
       return row.original.hasResume ? (
-        <div className="flex ">
-          <img src="/resume-icon.png" alt="Resume" className="" />
+        <div className="flex justify-center">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
+                <img src="/resume-icon.png" alt="Resume" className="h-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-[800px] p-0 border-0 shadow-xl relative"
+              side="bottom"
+              align="center"
+              sideOffset={10}
+            >
+              <div
+                className="fixed inset-0 bg-black/50"
+                style={{ zIndex: -1 }}
+              />
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                <img
+                  src="/resume.png"
+                  alt={`${row.original.name} özgeçmişi`}
+                  className="w-full h-auto"
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       ) : null;
     },
