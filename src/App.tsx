@@ -4,14 +4,11 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { LoginForm } from "./components/login-form";
-import { DashboardLayout } from "./components/dashboard-layout";
-import { TalentPoolHeader } from "./components/talent-pool-header";
-import { DataTable } from "./components/data-table";
-import { columns } from "./components/columns";
-import { applicants } from "./lib/data";
+import { Dashboard } from "./app/dashboard";
+import { Login } from "./app/login";
 import { TanstackQueryProvider } from "./lib/query-provider";
 import { AuthProvider, useAuth } from "./contexts/auth-context";
+import { NotFoundPage } from "./components/NotFoundPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -19,7 +16,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        Loading...
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -38,30 +38,20 @@ function AppRoutes() {
     <Routes>
       <Route
         path="/login"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/" />
-          ) : (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-zinc-950 p-4">
-              <LoginForm />
-            </div>
-          )
-        }
+        element={isAuthenticated ? <Navigate to="/talent-pool" /> : <Login />}
       />
 
+      <Route path="/" element={<Navigate to="/talent-pool" />} />
       <Route
-        path="/"
+        path="/talent-pool"
         element={
           <ProtectedRoute>
-            <DashboardLayout>
-              <div className="p-4 md:p-6">
-                <TalentPoolHeader />
-                <DataTable columns={columns} data={applicants} />
-              </div>
-            </DashboardLayout>
+            <Dashboard />
           </ProtectedRoute>
         }
       />
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
