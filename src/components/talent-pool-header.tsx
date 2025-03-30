@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Header } from "./header";
+import { useState, useContext } from "react";
 import {
   Sheet,
   SheetContent,
@@ -14,10 +13,18 @@ import {
   CommandEmpty,
 } from "@/components/ui/command";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus, Menu } from "lucide-react";
+import { DashboardContext } from "./dashboard-layout";
 
-export function TalentPoolHeader() {
+interface TalentPoolHeaderProps {
+  count?: number;
+}
+
+export function TalentPoolHeader({ count = 0 }: TalentPoolHeaderProps) {
   const [open, setOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
+  const { openSidebar } = useContext(DashboardContext);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -32,15 +39,37 @@ export function TalentPoolHeader() {
   }, []);
 
   return (
-    <div className="mb-6">
-      <Header
-        title="Talent Pool"
-        description="Keep track of the applicants"
-        action={{
-          label: "Add Talent",
-          onClick: () => setOpen(true),
-        }}
-      />
+    <div className="mb-6 border-b border-gray-200 dark:border-zinc-800 pb-4">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={openSidebar}
+              className="mr-1 lg:hidden"
+              aria-label="Open Menu"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <h1 className="text-[30px] font-bold">Talent Pool</h1>
+            <div className="flex items-center justify-center bg-gray-100 dark:bg-zinc-600 rounded-full w-10 h-8">
+              <span className="text-base">{count}</span>
+            </div>
+          </div>
+          <div className="text-base text-gray-500">
+            Keep track of the applicants
+          </div>
+        </div>
+
+        <Button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          Add Talent
+        </Button>
+      </div>
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent>
@@ -51,7 +80,6 @@ export function TalentPoolHeader() {
             </SheetDescription>
           </SheetHeader>
           <div className="py-4">
-            {/* Form would go here */}
             <p className="text-sm text-gray-500">Form placeholder</p>
           </div>
         </SheetContent>
