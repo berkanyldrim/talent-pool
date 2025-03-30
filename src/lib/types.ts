@@ -20,4 +20,7 @@ export interface Applicant {
   rating: number;
   appliedJob: JobPosition;
   hasResume: boolean;
+  aiFitScore?: number;
+  source?: string;
+  dateAdded?: string;
 }

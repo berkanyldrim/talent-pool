@@ -9,6 +9,9 @@ export const applicants: Applicant[] = [
     rating: 3,
     appliedJob: "Sr. Frontend Dev.",
     hasResume: true,
+    aiFitScore: 85,
+    source: "LinkedIn",
+    dateAdded: "2023-10-15",
   },
   {
     id: "2",
@@ -18,6 +21,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Software Engineering",
     hasResume: true,
+    aiFitScore: 92,
+    source: "Indeed",
+    dateAdded: "2023-10-14",
   },
   {
     id: "3",
@@ -27,6 +33,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Operations",
     hasResume: true,
+    aiFitScore: 78,
+    source: "Referral",
+    dateAdded: "2023-10-12",
   },
   {
     id: "4",
@@ -36,6 +45,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Software Engineering",
     hasResume: true,
+    aiFitScore: 88,
+    source: "LinkedIn",
+    dateAdded: "2023-10-10",
   },
   {
     id: "5",
@@ -45,6 +57,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Operations",
     hasResume: true,
+    aiFitScore: 75,
+    source: "Direct",
+    dateAdded: "2023-10-08",
   },
   {
     id: "6",
@@ -54,6 +69,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Design",
     hasResume: true,
+    aiFitScore: 90,
+    source: "LinkedIn",
+    dateAdded: "2023-10-05",
   },
   {
     id: "7",
@@ -63,6 +81,9 @@ export const applicants: Applicant[] = [
     rating: 3,
     appliedJob: "Finance",
     hasResume: true,
+    aiFitScore: 82,
+    source: "Indeed",
+    dateAdded: "2023-10-04",
   },
   {
     id: "8",
@@ -72,6 +93,9 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Software Engineering",
     hasResume: true,
+    aiFitScore: 95,
+    source: "Referral",
+    dateAdded: "2023-10-02",
   },
   {
     id: "9",
@@ -81,6 +105,9 @@ export const applicants: Applicant[] = [
     rating: 3,
     appliedJob: "Sr. Frontend Dev.",
     hasResume: true,
+    aiFitScore: 87,
+    source: "LinkedIn",
+    dateAdded: "2023-09-30",
   },
   {
     id: "10",
@@ -90,5 +117,8 @@ export const applicants: Applicant[] = [
     rating: 4,
     appliedJob: "Software Engineering",
     hasResume: true,
+    aiFitScore: 91,
+    source: "Direct",
+    dateAdded: "2023-09-28",
   },
 ];
