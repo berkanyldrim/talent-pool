@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { ThemeSwitcher } from "./theme-switcher";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   className?: string;
@@ -27,11 +28,12 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <div
       className={cn(
-        "hidden lg:flex h-screen w-64 flex-col fixed inset-y-0 z-10  border-r dark:border-zinc-800",
+        "hidden lg:flex h-screen w-64 flex-col fixed inset-y-0 left-0 z-10 bg-white border-r dark:bg-zinc-950 dark:border-zinc-800",
         className
       )}
     >
@@ -69,22 +71,26 @@ export function Sidebar({ className }: SidebarProps) {
           <NavItem
             icon={<Home className="h-5 w-5" />}
             label="Overview"
-            active={false}
+            href="/"
+            active={location.pathname === "/"}
           />
           <NavItem
             icon={<Briefcase className="h-5 w-5" />}
             label="Jobs"
-            active={false}
+            href="/jobs"
+            active={location.pathname === "/jobs"}
           />
           <NavItem
             icon={<Users className="h-5 w-5" />}
             label="Talent Pool"
-            active={true}
+            href="/talent-pool"
+            active={location.pathname.includes("/talent-pool")}
           />
           <NavItem
             icon={<Inbox className="h-5 w-5" />}
             label="Inbox"
-            active={false}
+            href="/inbox"
+            active={location.pathname === "/inbox"}
           />
         </div>
 
@@ -93,12 +99,14 @@ export function Sidebar({ className }: SidebarProps) {
           <NavItem
             icon={<LifeBuoy className="h-5 w-5" />}
             label="Support"
-            active={false}
+            href="/support"
+            active={location.pathname === "/support"}
           />
           <NavItem
             icon={<Settings className="h-5 w-5" />}
             label="Settings"
-            active={false}
+            href="/settings"
+            active={location.pathname === "/settings"}
           />
         </div>
 
@@ -106,7 +114,7 @@ export function Sidebar({ className }: SidebarProps) {
         <div className="px-4 py-4 border-t dark:border-zinc-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="h-8 w-8 rounded-full  overflow-hidden">
+              <div className="h-8 w-8 rounded-full overflow-hidden">
                 <img
                   src="https://randomuser.me/api/portraits/women/44.jpg"
                   alt="Olivia Rhye"
@@ -147,23 +155,23 @@ export function Sidebar({ className }: SidebarProps) {
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
+  href: string;
   active: boolean;
 }
 
-function NavItem({ icon, label, active }: NavItemProps) {
+function NavItem({ icon, label, href, active }: NavItemProps) {
   return (
-    <div
+    <Link
+      to={href}
       className={cn(
         "flex items-center px-3 py-2 rounded-md cursor-pointer",
         active
-          ? "bg-gray-100 dark:bg-zinc-800"
-          : "hover:bg-gray-100 dark:hover:bg-zinc-800"
+          ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
       )}
     >
-      <div className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400">
-        {icon}
-      </div>
-      <span className="text-sm dark:text-white">{label}</span>
-    </div>
+      <div className="w-5 h-5 mr-3">{icon}</div>
+      <span className="text-sm">{label}</span>
+    </Link>
   );
 }
