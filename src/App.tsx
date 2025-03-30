@@ -7,8 +7,10 @@ import { applicants } from "./lib/data";
 function App() {
   return (
     <DashboardLayout>
-      <TalentPoolHeader />
-      <DataTable columns={columns} data={applicants} />
+      <div className="p-4 md:p-6">
+        <TalentPoolHeader />
+        <DataTable columns={columns} data={applicants} />
+      </div>
     </DashboardLayout>
   );
 }
