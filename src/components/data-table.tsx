@@ -228,146 +228,148 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full flex flex-col">
-      <div className="flex items-center justify-end py-4 mb-2 gap-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-end py-4 mb-2 gap-2 w-full">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2 w-full md:justify-end">
           {/* Search Box */}
-          <div className="relative">
+          <div className="relative w-full md:w-[140px]">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#667085]" />
             <Input
               placeholder="Search..."
               value={localSearchTerm}
               onChange={handleSearchChange}
-              className="pl-8 pr-4 max-w-[180px] h-10 rounded-md border"
+              className="pl-8 pr-4 w-full h-10 rounded-md border"
             />
           </div>
 
-          {/* Sort Button */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 h-10"
-              >
-                <ArrowUpDown className="h-4 w-4 text-[#667085]" />
-                <span>Sort</span>
-                <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[200px]">
-              <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {table
-                .getAllColumns()
-                .filter(
-                  (column) =>
-                    typeof column.accessorFn !== "undefined" &&
-                    column.getCanSort() &&
-                    sortableColumns.includes(column.id)
-                )
-                .map((column) => {
-                  return (
-                    <DropdownMenuItem
-                      key={column.id}
-                      onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                      }
-                      className="cursor-pointer"
-                    >
-                      <span>{formatColumnName(column.id)}</span>
-                      <ArrowUpDown className="ml-auto h-4 w-4" />
-                    </DropdownMenuItem>
-                  );
-                })}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => table.resetSorting()}
-                className="cursor-pointer"
-              >
-                Reset sorting
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Columns Button */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 h-10"
-              >
-                <ColumnsIcon className="h-4 w-4 text-[#667085]" />
-                <span>Columns</span>
-                <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="w-[220px] max-h-[400px] overflow-auto"
-            >
-              <div className="py-2">
+          {/* Sort and Columns buttons  */}
+          <div className="flex gap-2 w-full md:w-auto">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2 h-10 flex-1 md:flex-none md:w-auto"
+                >
+                  <ArrowUpDown className="h-4 w-4 text-[#667085]" />
+                  <span>Sort</span>
+                  <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[200px]">
+                <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
                 {table
                   .getAllColumns()
-                  .filter((column) => column.getCanHide())
+                  .filter(
+                    (column) =>
+                      typeof column.accessorFn !== "undefined" &&
+                      column.getCanSort() &&
+                      sortableColumns.includes(column.id)
+                  )
                   .map((column) => {
                     return (
-                      <div
+                      <DropdownMenuItem
                         key={column.id}
-                        className="flex items-center justify-between px-3 py-2"
+                        onClick={() =>
+                          column.toggleSorting(column.getIsSorted() === "asc")
+                        }
+                        className="cursor-pointer"
                       >
-                        <div className="flex items-center gap-2">
-                          <Zap className="h-4 w-4 text-gray-500" />
-                          <span className="text-sm">
-                            {formatColumnName(column.id)}
-                          </span>
-                        </div>
-                        <Switch
-                          checked={column.getIsVisible()}
-                          onCheckedChange={(value) =>
-                            column.toggleVisibility(!!value)
-                          }
-                        />
-                      </div>
+                        <span>{formatColumnName(column.id)}</span>
+                        <ArrowUpDown className="ml-auto h-4 w-4" />
+                      </DropdownMenuItem>
                     );
                   })}
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => table.resetSorting()}
+                  className="cursor-pointer"
+                >
+                  Reset sorting
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          {/* Sheet View Button */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 h-10"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2 h-10 flex-1 md:flex-none md:w-auto"
+                >
+                  <ColumnsIcon className="h-4 w-4 text-[#667085]" />
+                  <span>Columns</span>
+                  <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-[220px] max-h-[400px] overflow-auto"
               >
-                <img
-                  src="/icon.png"
-                  alt="Sheet view"
-                  className="h-4 w-4"
-                  style={{
-                    filter:
-                      "brightness(0) saturate(100%) invert(43%) sepia(8%) saturate(1011%) hue-rotate(182deg) brightness(91%) contrast(87%)",
-                  }}
-                />
-                <span>Sheet view</span>
-                <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Table View</DropdownMenuItem>
-              <DropdownMenuItem>Grid View</DropdownMenuItem>
-              <DropdownMenuItem>Kanban View</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <div className="py-2">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <div
+                          key={column.id}
+                          className="flex items-center justify-between px-3 py-2"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Zap className="h-4 w-4 text-gray-500" />
+                            <span className="text-sm">
+                              {formatColumnName(column.id)}
+                            </span>
+                          </div>
+                          <Switch
+                            checked={column.getIsVisible()}
+                            onCheckedChange={(value) =>
+                              column.toggleVisibility(!!value)
+                            }
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
-          {/* More Options */}
-          <Button variant="outline" size="icon">
-            <MoreHorizontal className="h-4 w-4 text-[#667085]" />
-          </Button>
+          {/* Sheet View and More Options  */}
+          <div className="flex gap-2 w-full md:w-auto md:ml-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2 h-10 flex-1 md:flex-none md:w-auto"
+                >
+                  <img
+                    src="/icon.png"
+                    alt="Sheet view"
+                    className="h-4 w-4"
+                    style={{
+                      filter:
+                        "brightness(0) saturate(100%) invert(43%) sepia(8%) saturate(1011%) hue-rotate(182deg) brightness(91%) contrast(87%)",
+                    }}
+                  />
+                  <span>Sheet view</span>
+                  <ChevronDown className="h-4 w-4 ml-1 text-[#667085]" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Table View</DropdownMenuItem>
+                <DropdownMenuItem>Grid View</DropdownMenuItem>
+                <DropdownMenuItem>Kanban View</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Button variant="outline" size="icon" className="h-10 w-10">
+              <MoreHorizontal className="h-4 w-4 text-[#667085]" />
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="rounded-md">
+      <div className="rounded-md w-full">
         <div
           className="relative w-full overflow-auto"
           style={{ height: "calc(100vh - 300px)" }}
@@ -455,23 +457,30 @@ export function DataTable<TData, TValue>({
                         index === 7 ? "border-b-0" : ""
                       )}
                     >
-                      {columns.map((_, cellIndex) => (
-                        <TableCell
-                          key={`skeleton-cell-${cellIndex}`}
-                          className={cn(
-                            "p-2 dark:border-zinc-800 last:border-r-0",
-                            cellIndex !== 0 ? "border-r border-gray-200" : ""
-                          )}
-                          style={{
-                            textAlign: "left",
-                            paddingRight: "16px",
-                          }}
-                        >
-                          <div>
-                            <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-3/4" />
-                          </div>
-                        </TableCell>
-                      ))}
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-8" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-32" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-40" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-24" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-20" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-36" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-16" />
+                      </TableCell>
+                      <TableCell className="p-2">
+                        <div className="h-6 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse w-8" />
+                      </TableCell>
                     </TableRow>
                   ))
               ) : table.getRowModel().rows?.length ? (
