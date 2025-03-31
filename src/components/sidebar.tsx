@@ -52,6 +52,7 @@ export function Sidebar({ className }: SidebarProps) {
                 <Button
                   variant="ghost"
                   className="px-0 font-semibold flex items-center dark:text-white flex-1 justify-between"
+                  aria-label="Toggle organization menu"
                 >
                   <span>Hrpanda</span>
                   {isDropdownOpen ? (
@@ -62,10 +63,16 @@ export function Sidebar({ className }: SidebarProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-[200px]">
-                <DropdownMenuItem>Organization Settings</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem role="menuitem" data-testid="org-settings">
+                  Organization Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem role="menuitem" data-testid="org-billing">
+                  Billing
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Switch Organization</DropdownMenuItem>
+                <DropdownMenuItem role="menuitem" data-testid="org-switch">
+                  Switch Organization
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -117,7 +124,7 @@ export function Sidebar({ className }: SidebarProps) {
         </div>
 
         {/* User Profile */}
-        <div className="px-4 py-4 border-t dark:border-zinc-800">
+        <div className="hidden lg:block px-4 py-4 border-t dark:border-zinc-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="h-8 w-8 rounded-full overflow-hidden">
@@ -129,24 +136,35 @@ export function Sidebar({ className }: SidebarProps) {
               </div>
               <div className="ml-3">
                 <p className="text-sm font-medium dark:text-white">
-                  {user?.firstName || "Kullanıcı"}
+                  {user?.firstName}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {user?.email || "kullanici@hrpanda.co"}
+                  {user?.email}
                 </p>
               </div>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  aria-label="Toggle user menu"
+                >
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Your Profile</DropdownMenuItem>
-                <DropdownMenuItem>Preferences</DropdownMenuItem>
+                <DropdownMenuItem role="menuitem" data-testid="profile">
+                  Your Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem role="menuitem" data-testid="preferences">
+                  Preferences
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
+                  role="menuitem"
+                  data-testid="sign-out"
                   onClick={logout}
                   className="text-red-500 focus:bg-red-50 dark:focus:bg-red-950 focus:text-red-600 dark:focus:text-red-400"
                 >
