@@ -1,54 +1,199 @@
-# React + TypeScript + Vite
+# Talent Pool Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application built with React, TypeScript, and Vite for managing talent pools and recruitment processes.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Modern React with TypeScript
+- Vite for fast development and building
+- ESLint configuration for code quality
+- Hot Module Replacement (HMR)
+- Comprehensive testing setup with Vitest
+- Modern UI components with shadcn/ui
+- Form handling with React Hook Form
+- Data fetching with TanStack Query
+- GraphQL integration with graphql-request
+- Styling with Tailwind CSS
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js (v14 or higher)
+- npm or yarn
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/berkanyldrim/talent-pool.git
+cd talent-pool
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
+# or
+yarn install
 ```
+
+3. Start the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Testing
+
+The project uses Vitest for testing. Available test commands:
+
+```bash
+# Run tests in watch mode
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+- `npm run test` - Run tests
+- `npm run test:ui` - Run tests with UI
+- `npm run test:coverage` - Run tests with coverage report
+
+## Project Structure
+
+```
+talent-pool/
+├── src/              # Source files
+├── public/           # Static files
+├── index.html        # Entry HTML file
+├── package.json      # Project dependencies
+├── tsconfig.json     # TypeScript configuration
+└── vite.config.ts    # Vite configuration
+```
+
+## Key Technologies
+
+- **Frontend Framework**: React 19 with TypeScript
+- **Build Tool**: Vite 6
+- **Testing**: Vitest, React Testing Library
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **Form Handling**: React Hook Form with Zod validation
+- **Data Fetching**: TanStack Query
+- **GraphQL Client**: graphql-request
+- **Routing**: React Router DOM
+- **Development Tools**: ESLint, TypeScript
+
+---
+
+# Talent Havuzu Projesi
+
+React, TypeScript ve Vite kullanılarak geliştirilmiş, yetenek havuzları ve işe alım süreçlerini yönetmek için modern bir web uygulaması.
+
+## Özellikler
+
+- TypeScript ile modern React
+- Hızlı geliştirme ve derleme için Vite
+- Kod kalitesi için ESLint yapılandırması
+- Hot Module Replacement (HMR)
+- Vitest ile kapsamlı test altyapısı
+- shadcn/ui ile modern UI bileşenleri
+- React Hook Form ile form yönetimi
+- TanStack Query ile veri çekme
+- graphql-request ile GraphQL entegrasyonu
+- Tailwind CSS ile stil yönetimi
+
+## Gereksinimler
+
+- Node.js (v14 veya üzeri)
+- npm veya yarn
+
+## Başlangıç
+
+1. Projeyi klonlayın:
+
+```bash
+git clone https://github.com/berkanyldrim/talent-pool.git
+cd talent-pool
+```
+
+2. Bağımlılıkları yükleyin:
+
+```bash
+npm install
+# veya
+yarn install
+```
+
+3. Geliştirme sunucusunu başlatın:
+
+```bash
+npm run dev
+# veya
+yarn dev
+```
+
+4. Tarayıcınızı açın ve `http://localhost:5173` adresine gidin
+
+## Test
+
+Proje Vitest kullanmaktadır. Kullanılabilir test komutları:
+
+```bash
+# Testleri izleme modunda çalıştır
+npm run test
+
+# UI ile testleri çalıştır
+npm run test:ui
+
+# Kapsam raporu ile testleri çalıştır
+npm run test:coverage
+```
+
+## Kullanılabilir Komutlar
+
+- `npm run dev` - Geliştirme sunucusunu başlatır
+- `npm run build` - Üretim için derleme yapar
+- `npm run preview` - Üretim derlemesini yerel olarak önizler
+- `npm run lint` - ESLint çalıştırır
+- `npm run test` - Testleri çalıştırır
+- `npm run test:ui` - UI ile testleri çalıştırır
+- `npm run test:coverage` - Kapsam raporu ile testleri çalıştırır
+
+## Proje Yapısı
+
+```
+talent-pool/
+├── src/              # Kaynak dosyalar
+├── public/           # Statik dosyalar
+├── index.html        # Giriş HTML dosyası
+├── package.json      # Proje bağımlılıkları
+├── tsconfig.json     # TypeScript yapılandırması
+└── vite.config.ts    # Vite yapılandırması
+```
+
+## Kullanılan Teknolojiler
+
+- **Frontend Framework**: React 19 ve TypeScript
+- **Derleme Aracı**: Vite 6
+- **Test**: Vitest, React Testing Library
+- **UI Bileşenleri**: shadcn/ui
+- **Stil**: Tailwind CSS
+- **Form Yönetimi**: React Hook Form ve Zod doğrulama
+- **Veri Çekme**: TanStack Query
+- **GraphQL İstemcisi**: graphql-request
+- **Yönlendirme**: React Router DOM
+- **Geliştirme Araçları**: ESLint, TypeScript
