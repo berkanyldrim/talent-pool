@@ -2,7 +2,7 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/columns";
 import { useApplicants } from "@/hooks/use-applicants";
-import { TalentPoolHeader } from "@/components/talent-pool-header";
+import { Header } from "@/components/header";
 import { useMemo } from "react";
 
 export function Dashboard() {
@@ -68,7 +68,7 @@ export function Dashboard() {
   return (
     <DashboardLayout>
       <div className="p-4 md:p-6">
-        <TalentPoolHeader count={applicants.length} />
+        <Header count={applicants.length} />
 
         <DataTable
           columns={columns}
